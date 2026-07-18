@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acompanhamento de Atividades — Luciano</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+
+  :root {
+    --surface-1:      #fcfcfb;
+    --page-plane:      #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --muted:          #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --card-bg:        #ffffff;
+
+    --c-corrida: #2a78d6;
+    --c-musc:    #008300;
+    --c-spin:    #eb6834;
+    --c-cal:        #4a3aa7;
+    --c-cal-active: #e34948;
+    --c-cal-basal:  #c3c2b7;
+
+    --good: #0ca30c;
+    --warning: #fab219;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:      #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --muted:          #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --card-bg:        #232322;
+
+      --c-corrida: #3987e5;
+      --c-musc:    #008300;
+      --c-spin:    #d95926;
+      --c-cal:        #9085e9;
+      --c-cal-active: #e66767;
+      --c-cal-basal:  #383835;
+
+      --good: #0ca30c;
+      --warning: #fab219;
+    }
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* ── HERO / RACE ── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #0ea5e9 130%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+  }
+  .hero-main { flex: 1; min-width: 260px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7dd3fc; font-weight: 700; }
+  .hero-title { font-size: 28px; font-weight: 800; margin: 6px 0 2px; }
+  .hero-sub { font-size: 13px; color: #cbd5e1; }
+  .hero-countdown {
+    text-align: center;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 12px;
+    padding: 14px 26px;
+    min-width: 140px;
+  }
+  .hero-countdown .num { font-size: 40px; font-weight: 800; color: #7dd3fc; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-countdown .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-top: 4px; }
+  .hero-progress { flex-basis: 100%; }
+  .hero-progress-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.15); overflow: hidden; margin-top: 6px; }
+  .hero-progress-fill { height: 100%; background: #7dd3fc; border-radius: 4px; }
+  .hero-progress-txt { font-size: 11px; color: #cbd5e1; margin-top: 4px; }
+
+  /* ── SECTION HEADERS ── */
+  .section-title {
+    font-size: 15px;
+    font-weight: 800;
+    margin: 28px 0 12px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-sub { font-size: 12px; color: var(--muted); font-weight: 500; margin-left: 4px; }
+
+  /* ── KPI CARDS ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .kpi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    border-top: 4px solid var(--kc);
+  }
+  .kpi-card.c-corrida { --kc: var(--c-corrida); }
+  .kpi-card.c-musc { --kc: var(--c-musc); }
+  .kpi-card.c-spin { --kc: var(--c-spin); }
+  .kpi-head { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .kpi-nums { display: flex; gap: 18px; margin-bottom: 8px; }
+  .kpi-num-block .num { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .kpi-num-block .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .kpi-foot { font-size: 11px; color: var(--text-secondary); border-top: 1px solid var(--gridline); padding-top: 8px; margin-top: 4px; }
+  .badge-good { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: var(--good); }
+  .badge-good::before { content: '●'; font-size: 8px; }
+
+  /* ── CHARTS (small multiples) ── */
+  .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px 10px;
+  }
+  .chart-card-title { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; }
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 130px;
+    border-bottom: 1.5px solid var(--baseline);
+    padding-bottom: 2px;
+    overflow-x: auto;
+  }
+  .bar-col { flex: 1; min-width: 18px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .bar-value { font-size: 7.5px; color: var(--muted); margin-bottom: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .chart-bars-dense .bar-col { min-width: 12px; }
+  .chart-bars-dense .bar-value { font-size: 6.5px; }
+  .chart-bars-dense .bar-label { font-size: 6.5px; }
+  .bar-stack { width: 80%; display: flex; flex-direction: column; min-height: 4px; }
+  .bar-seg { width: 100%; }
+  .bar-seg.bar-active { background: var(--c-cal-active); border-radius: 3px 3px 0 0; margin-bottom: 1px; }
+  .bar-seg.bar-basal { background: var(--c-cal-basal); border-radius: 0 0 2px 2px; }
+  .kpi-card.c-cal { --kc: var(--c-cal); }
+  .bar { width: 80%; border-radius: 3px 3px 0 0; min-height: 2px; }
+  .bar-label { font-size: 7.5px; color: var(--muted); margin-top: 4px; white-space: nowrap; transform: rotate(0deg); }
+
+  /* ── DAILY LOG TABLE ── */
+  .log-table-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  table.log-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.log-table th {
+    text-align: left;
+    background: var(--surface-1);
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gridline);
+    position: sticky; top: 0;
+  }
+  table.log-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--gridline);
+    color: var(--text-primary);
+  }
+  table.log-table tr:last-child td { border-bottom: none; }
+  .cat-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; }
+  tr.row-corrida .cat-dot { background: var(--c-corrida); }
+  tr.row-musc .cat-dot { background: var(--c-musc); }
+  tr.row-spin .cat-dot { background: var(--c-spin); }
+  .log-scroll { max-height: 520px; overflow-y: auto; }
+
+  .legend-row { display: flex; gap: 16px; margin-bottom: 10px; font-size: 12px; color: var(--text-secondary); }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  footer {
+    margin-top: 32px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 860px) {
+    .kpi-row, .chart-grid { grid-template-columns: 1fr; }
+    .hero { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-main">
+      <div class="hero-eyebrow">Projeto · Prova Alvo</div>
+      <div class="hero-title">🏁 Volta da Pampulha — 18KM</div>
+      <div class="hero-sub">Domingo, 06/12/2026 · Semana 2 de 21 do plano de treino</div>
+      <div class="hero-progress">
+        <div class="hero-progress-bar"><div class="hero-progress-fill" style="width:9.5%;"></div></div>
+        <div class="hero-progress-txt">Semana 2 de 21 · 9,5% do plano concluído</div>
+      </div>
+    </div>
+    <div class="hero-countdown">
+      <div class="num">141</div>
+      <div class="lbl">dias restantes</div>
+    </div>
+    <div class="hero-countdown">
+      <div class="num">20,1</div>
+      <div class="lbl">semanas restantes</div>
+    </div>
+  </div>
+
+  <div class="section-title">📊 Últimos 7 / 30 dias <span class="section-sub">atualizado em 18/07/2026</span></div>
+  <div class="kpi-row">
+    <div class="kpi-card c-corrida">
+      <div class="kpi-head">🏃 Corrida</div>
+      <div class="kpi-nums">
+        <div class="kpi-num-block"><div class="num">2</div><div class="lbl">7 dias</div></div>
+        <div class="kpi-num-block"><div class="num">9,1km</div><div class="lbl">km 7d</div></div>
+        <div class="kpi-num-block"><div class="num">8</div><div class="lbl">30 dias</div></div>
+        <div class="kpi-num-block"><div class="num">26,9km</div><div class="lbl">km 30d</div></div>
+      </div>
+      <div class="kpi-foot"><span class="badge-good">Plano iniciado — 1º treino em 17/07 ✓</span> · maior distância (13m): 6,08km</div>
+    </div>
+    <div class="kpi-card c-musc">
+      <div class="kpi-head">🏋️ Musculação</div>
+      <div class="kpi-nums">
+        <div class="kpi-num-block"><div class="num">6</div><div class="lbl">7 dias</div></div>
+        <div class="kpi-num-block"><div class="num">469min</div><div class="lbl">min 7d</div></div>
+        <div class="kpi-num-block"><div class="num">26</div><div class="lbl">30 dias</div></div>
+      </div>
+      <div class="kpi-foot"><span class="badge-good">6x/semana — meta 5x atingida</span> · última: 17/07</div>
+    </div>
+    <div class="kpi-card c-spin">
+      <div class="kpi-head">🚴 Spinning</div>
+      <div class="kpi-nums">
+        <div class="kpi-num-block"><div class="num">1</div><div class="lbl">7 dias</div></div>
+        <div class="kpi-num-block"><div class="num">45min</div><div class="lbl">min 7d</div></div>
+        <div class="kpi-num-block"><div class="num">5</div><div class="lbl">30 dias</div></div>
+      </div>
+      <div class="kpi-foot">Última sessão: 15/07 · complementar, sem meta fixa</div>
+    </div>
+  </div>
+
+  <div class="section-title">🔥 Monitor de Calorias <span class="section-sub">calorias queimadas (ativas + basais) — sem dados de consumo/dieta no Apple Saúde</span></div>
+  <div class="kpi-row">
+    <div class="kpi-card c-cal">
+      <div class="kpi-head">🔥 Média diária</div>
+      <div class="kpi-nums">
+        <div class="kpi-num-block"><div class="num">4.030</div><div class="lbl">7 dias</div></div>
+        <div class="kpi-num-block"><div class="num">3.670</div><div class="lbl">30 dias</div></div>
+        <div class="kpi-num-block"><div class="num">3.526</div><div class="lbl">média 13m</div></div>
+      </div>
+      <div class="kpi-foot"><span class="badge-good">+14% vs média histórica</span> — semana com mais musculação que o normal</div>
+    </div>
+    <div class="kpi-card c-cal">
+      <div class="kpi-head">📈 Extremos (13 meses)</div>
+      <div class="kpi-nums">
+        <div class="kpi-num-block"><div class="num">4.838</div><div class="lbl">Maior dia</div></div>
+        <div class="kpi-num-block"><div class="num">19/09</div><div class="lbl">data</div></div>
+      </div>
+      <div class="kpi-foot">Hoje (18/07, parcial): 1.636 cal até o momento da extração</div>
+    </div>
+    <div class="kpi-card c-cal">
+      <div class="kpi-head">ℹ️ Sobre esses números</div>
+      <div class="kpi-foot" style="border-top:none; padding-top:0; margin-top:0;">Total = calorias ativas (exercício/movimento) + basais (metabolismo em repouso). Não há registro de calorias consumidas — nenhum app de dieta sincronizado ao Apple Saúde.</div>
+    </div>
+  </div>
+
+  <div class="chart-grid" style="grid-template-columns: 2fr 1fr; margin-top:14px;">
+    <div class="chart-card">
+      <div class="chart-card-title">Últimos 30 dias — cal/dia (ativas + basais)</div>
+      <div class="legend-row" style="margin-bottom:8px;">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--c-cal-active)"></span>Ativas</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--c-cal-basal)"></span>Basais (repouso)</div>
+      </div>
+      <div class="chart-bars chart-bars-dense"><div class="bar-col"><div class="bar-value">3842</div><div class="bar-stack" style="height:83%;" title="19/06: 3842cal (ativas 1365 + basal 2477)"><div class="bar-seg bar-active" style="height:34%;"></div><div class="bar-seg bar-basal" style="height:65%;"></div></div><div class="bar-label">19/06</div></div><div class="bar-col"><div class="bar-value">3025</div><div class="bar-stack" style="height:65%;" title="20/06: 3025cal (ativas 761 + basal 2264)"><div class="bar-seg bar-active" style="height:23%;"></div><div class="bar-seg bar-basal" style="height:75%;"></div></div><div class="bar-label">20/06</div></div><div class="bar-col"><div class="bar-value">3273</div><div class="bar-stack" style="height:71%;" title="21/06: 3273cal (ativas 1191 + basal 2081)"><div class="bar-seg bar-active" style="height:35%;"></div><div class="bar-seg bar-basal" style="height:63%;"></div></div><div class="bar-label">21/06</div></div><div class="bar-col"><div class="bar-value">3655</div><div class="bar-stack" style="height:79%;" title="22/06: 3655cal (ativas 1197 + basal 2458)"><div class="bar-seg bar-active" style="height:32%;"></div><div class="bar-seg bar-basal" style="height:67%;"></div></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">3820</div><div class="bar-stack" style="height:82%;" title="23/06: 3820cal (ativas 1464 + basal 2356)"><div class="bar-seg bar-active" style="height:37%;"></div><div class="bar-seg bar-basal" style="height:62%;"></div></div><div class="bar-label">23/06</div></div><div class="bar-col"><div class="bar-value">3690</div><div class="bar-stack" style="height:80%;" title="24/06: 3690cal (ativas 1270 + basal 2420)"><div class="bar-seg bar-active" style="height:34%;"></div><div class="bar-seg bar-basal" style="height:65%;"></div></div><div class="bar-label">24/06</div></div><div class="bar-col"><div class="bar-value">3697</div><div class="bar-stack" style="height:80%;" title="25/06: 3697cal (ativas 1321 + basal 2376)"><div class="bar-seg bar-active" style="height:35%;"></div><div class="bar-seg bar-basal" style="height:64%;"></div></div><div class="bar-label">25/06</div></div><div class="bar-col"><div class="bar-value">3474</div><div class="bar-stack" style="height:75%;" title="26/06: 3474cal (ativas 1130 + basal 2343)"><div class="bar-seg bar-active" style="height:31%;"></div><div class="bar-seg bar-basal" style="height:68%;"></div></div><div class="bar-label">26/06</div></div><div class="bar-col"><div class="bar-value">3243</div><div class="bar-stack" style="height:70%;" title="27/06: 3243cal (ativas 1111 + basal 2132)"><div class="bar-seg bar-active" style="height:33%;"></div><div class="bar-seg bar-basal" style="height:66%;"></div></div><div class="bar-label">27/06</div></div><div class="bar-col"><div class="bar-value">3373</div><div class="bar-stack" style="height:73%;" title="28/06: 3373cal (ativas 1168 + basal 2205)"><div class="bar-seg bar-active" style="height:33%;"></div><div class="bar-seg bar-basal" style="height:66%;"></div></div><div class="bar-label">28/06</div></div><div class="bar-col"><div class="bar-value">3768</div><div class="bar-stack" style="height:81%;" title="29/06: 3768cal (ativas 1545 + basal 2223)"><div class="bar-seg bar-active" style="height:40%;"></div><div class="bar-seg bar-basal" style="height:59%;"></div></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">3248</div><div class="bar-stack" style="height:70%;" title="30/06: 3248cal (ativas 1200 + basal 2048)"><div class="bar-seg bar-active" style="height:36%;"></div><div class="bar-seg bar-basal" style="height:63%;"></div></div><div class="bar-label">30/06</div></div><div class="bar-col"><div class="bar-value">3102</div><div class="bar-stack" style="height:67%;" title="01/07: 3102cal (ativas 718 + basal 2383)"><div class="bar-seg bar-active" style="height:22%;"></div><div class="bar-seg bar-basal" style="height:76%;"></div></div><div class="bar-label">01/07</div></div><div class="bar-col"><div class="bar-value">3764</div><div class="bar-stack" style="height:81%;" title="02/07: 3764cal (ativas 1477 + basal 2287)"><div class="bar-seg bar-active" style="height:38%;"></div><div class="bar-seg bar-basal" style="height:60%;"></div></div><div class="bar-label">02/07</div></div><div class="bar-col"><div class="bar-value">3701</div><div class="bar-stack" style="height:80%;" title="03/07: 3701cal (ativas 1355 + basal 2346)"><div class="bar-seg bar-active" style="height:35%;"></div><div class="bar-seg bar-basal" style="height:64%;"></div></div><div class="bar-label">03/07</div></div><div class="bar-col"><div class="bar-value">3211</div><div class="bar-stack" style="height:69%;" title="04/07: 3211cal (ativas 1117 + basal 2094)"><div class="bar-seg bar-active" style="height:33%;"></div><div class="bar-seg bar-basal" style="height:65%;"></div></div><div class="bar-label">04/07</div></div><div class="bar-col"><div class="bar-value">4144</div><div class="bar-stack" style="height:89%;" title="05/07: 4144cal (ativas 1800 + basal 2344)"><div class="bar-seg bar-active" style="height:43%;"></div><div class="bar-seg bar-basal" style="height:56%;"></div></div><div class="bar-label">05/07</div></div><div class="bar-col"><div class="bar-value">3410</div><div class="bar-stack" style="height:74%;" title="06/07: 3410cal (ativas 1161 + basal 2249)"><div class="bar-seg bar-active" style="height:32%;"></div><div class="bar-seg bar-basal" style="height:66%;"></div></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">4163</div><div class="bar-stack" style="height:90%;" title="07/07: 4163cal (ativas 1716 + basal 2447)"><div class="bar-seg bar-active" style="height:40%;"></div><div class="bar-seg bar-basal" style="height:59%;"></div></div><div class="bar-label">07/07</div></div><div class="bar-col"><div class="bar-value">4224</div><div class="bar-stack" style="height:91%;" title="08/07: 4224cal (ativas 1951 + basal 2273)"><div class="bar-seg bar-active" style="height:45%;"></div><div class="bar-seg bar-basal" style="height:54%;"></div></div><div class="bar-label">08/07</div></div><div class="bar-col"><div class="bar-value">3550</div><div class="bar-stack" style="height:77%;" title="09/07: 3550cal (ativas 1344 + basal 2207)"><div class="bar-seg bar-active" style="height:36%;"></div><div class="bar-seg bar-basal" style="height:62%;"></div></div><div class="bar-label">09/07</div></div><div class="bar-col"><div class="bar-value">3465</div><div class="bar-stack" style="height:75%;" title="10/07: 3465cal (ativas 1372 + basal 2093)"><div class="bar-seg bar-active" style="height:39%;"></div><div class="bar-seg bar-basal" style="height:60%;"></div></div><div class="bar-label">10/07</div></div><div class="bar-col"><div class="bar-value">3414</div><div class="bar-stack" style="height:74%;" title="11/07: 3414cal (ativas 1655 + basal 1759)"><div class="bar-seg bar-active" style="height:47%;"></div><div class="bar-seg bar-basal" style="height:51%;"></div></div><div class="bar-label">11/07</div></div><div class="bar-col"><div class="bar-value">3466</div><div class="bar-stack" style="height:75%;" title="12/07: 3466cal (ativas 1399 + basal 2067)"><div class="bar-seg bar-active" style="height:39%;"></div><div class="bar-seg bar-basal" style="height:60%;"></div></div><div class="bar-label">12/07</div></div><div class="bar-col"><div class="bar-value">4131</div><div class="bar-stack" style="height:89%;" title="13/07: 4131cal (ativas 1797 + basal 2334)"><div class="bar-seg bar-active" style="height:43%;"></div><div class="bar-seg bar-basal" style="height:56%;"></div></div><div class="bar-label">13/07</div></div><div class="bar-col"><div class="bar-value">3790</div><div class="bar-stack" style="height:82%;" title="14/07: 3790cal (ativas 1496 + basal 2294)"><div class="bar-seg bar-active" style="height:38%;"></div><div class="bar-seg bar-basal" style="height:61%;"></div></div><div class="bar-label">14/07</div></div><div class="bar-col"><div class="bar-value">4639</div><div class="bar-stack" style="height:100%;" title="15/07: 4639cal (ativas 2254 + basal 2385)"><div class="bar-seg bar-active" style="height:48%;"></div><div class="bar-seg bar-basal" style="height:51%;"></div></div><div class="bar-label">15/07</div></div><div class="bar-col"><div class="bar-value">3896</div><div class="bar-stack" style="height:84%;" title="16/07: 3896cal (ativas 1858 + basal 2038)"><div class="bar-seg bar-active" style="height:46%;"></div><div class="bar-seg bar-basal" style="height:52%;"></div></div><div class="bar-label">16/07</div></div><div class="bar-col"><div class="bar-value">4261</div><div class="bar-stack" style="height:92%;" title="17/07: 4261cal (ativas 1892 + basal 2369)"><div class="bar-seg bar-active" style="height:43%;"></div><div class="bar-seg bar-basal" style="height:55%;"></div></div><div class="bar-label">17/07</div></div><div class="bar-col"><div class="bar-value">1636*</div><div class="bar-stack" style="height:35%;" title="18/07 (parcial): 1636cal (ativas 778 + basal 857)"><div class="bar-seg bar-active" style="height:46%;"></div><div class="bar-seg bar-basal" style="height:51%;"></div></div><div class="bar-label">18/07</div></div></div>
+      <div style="font-size:10px; color:var(--muted); margin-top:6px;">* dia de hoje, dado parcial (extração feita antes do fim do dia)</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Média diária por mês (13m)</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">3489</div><div class="bar" style="height:94%; background:var(--c-cal);" title="Jun/25: media 3489cal/dia"></div><div class="bar-label">Jun/25</div></div><div class="bar-col"><div class="bar-value">3701</div><div class="bar" style="height:100%; background:var(--c-cal);" title="Jul/25: media 3701cal/dia"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">3712</div><div class="bar" style="height:100%; background:var(--c-cal);" title="Ago/25: media 3712cal/dia"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">3621</div><div class="bar" style="height:98%; background:var(--c-cal);" title="Set/25: media 3621cal/dia"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">3532</div><div class="bar" style="height:95%; background:var(--c-cal);" title="Out/25: media 3532cal/dia"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">3436</div><div class="bar" style="height:93%; background:var(--c-cal);" title="Nov/25: media 3436cal/dia"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">3484</div><div class="bar" style="height:94%; background:var(--c-cal);" title="Dez/25: media 3484cal/dia"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">3413</div><div class="bar" style="height:92%; background:var(--c-cal);" title="Jan/26: media 3413cal/dia"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">3452</div><div class="bar" style="height:93%; background:var(--c-cal);" title="Fev/26: media 3452cal/dia"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">3588</div><div class="bar" style="height:97%; background:var(--c-cal);" title="Mar/26: media 3588cal/dia"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">3116</div><div class="bar" style="height:84%; background:var(--c-cal);" title="Abr/26: media 3116cal/dia"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">3514</div><div class="bar" style="height:95%; background:var(--c-cal);" title="Mai/26: media 3514cal/dia"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">3581</div><div class="bar" style="height:96%; background:var(--c-cal);" title="Jun/26: media 3581cal/dia"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">3665</div><div class="bar" style="height:99%; background:var(--c-cal);" title="Jul/26: media 3665cal/dia"></div><div class="bar-label">Jul/26</div></div></div><div class="bar-col"><div class="bar-value">3701</div><div class="bar" style="height:100%; background:var(--c-cal);" title="Jul/25: media 3701cal/dia"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">3712</div><div class="bar" style="height:100%; background:var(--c-cal);" title="Ago/25: media 3712cal/dia"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">3621</div><div class="bar" style="height:98%; background:var(--c-cal);" title="Set/25: media 3621cal/dia"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">3532</div><div class="bar" style="height:95%; background:var(--c-cal);" title="Out/25: media 3532cal/dia"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">3436</div><div class="bar" style="height:93%; background:var(--c-cal);" title="Nov/25: media 3436cal/dia"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">3484</div><div class="bar" style="height:94%; background:var(--c-cal);" title="Dez/25: media 3484cal/dia"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">3413</div><div class="bar" style="height:92%; background:var(--c-cal);" title="Jan/26: media 3413cal/dia"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">3452</div><div class="bar" style="height:93%; background:var(--c-cal);" title="Fev/26: media 3452cal/dia"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">3588</div><div class="bar" style="height:97%; background:var(--c-cal);" title="Mar/26: media 3588cal/dia"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">3116</div><div class="bar" style="height:84%; background:var(--c-cal);" title="Abr/26: media 3116cal/dia"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">3514</div><div class="bar" style="height:95%; background:var(--c-cal);" title="Mai/26: media 3514cal/dia"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">3581</div><div class="bar" style="height:96%; background:var(--c-cal);" title="Jun/26: media 3581cal/dia"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">3706</div><div class="bar" style="height:100%; background:var(--c-cal);" title="Jul/26: media 3706cal/dia"></div><div class="bar-label">Jul/26</div></div></div>
+    </div>
+  </div>
+
+  <div class="section-title">📅 Últimos 13 meses <span class="section-sub">visão mensal</span></div>
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-card-title">Corrida — km/mês</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Jun/25: 0km"></div><div class="bar-label">Jun/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Jul/25: 0km"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Ago/25: 0km"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Set/25: 0km"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Out/25: 0km"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Nov/25: 0km"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">5.1km</div><div class="bar" style="height:9%; background:var(--c-corrida);" title="Dez/25: 5.1km"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">28.9km</div><div class="bar" style="height:54%; background:var(--c-corrida);" title="Jan/26: 28.9km"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">24.4km</div><div class="bar" style="height:45%; background:var(--c-corrida);" title="Fev/26: 24.4km"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">51km</div><div class="bar" style="height:95%; background:var(--c-corrida);" title="Mar/26: 51km"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">24.4km</div><div class="bar" style="height:45%; background:var(--c-corrida);" title="Abr/26: 24.4km"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">53.8km</div><div class="bar" style="height:100%; background:var(--c-corrida);" title="Mai/26: 53.8km"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">25.2km</div><div class="bar" style="height:47%; background:var(--c-corrida);" title="Jun/26: 25.2km"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">19.9km</div><div class="bar" style="height:37%; background:var(--c-corrida);" title="Jul/26: 19.9km"></div><div class="bar-label">Jul/26</div></div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Jul/25: 0km"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Ago/25: 0km"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Set/25: 0km"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Out/25: 0km"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="Nov/25: 0km"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">5.1km</div><div class="bar" style="height:9%; background:var(--c-corrida);" title="Dez/25: 5.1km"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">28.9km</div><div class="bar" style="height:54%; background:var(--c-corrida);" title="Jan/26: 28.9km"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">24.4km</div><div class="bar" style="height:45%; background:var(--c-corrida);" title="Fev/26: 24.4km"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">51km</div><div class="bar" style="height:95%; background:var(--c-corrida);" title="Mar/26: 51km"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">24.4km</div><div class="bar" style="height:45%; background:var(--c-corrida);" title="Abr/26: 24.4km"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">53.8km</div><div class="bar" style="height:100%; background:var(--c-corrida);" title="Mai/26: 53.8km"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">25.2km</div><div class="bar" style="height:47%; background:var(--c-corrida);" title="Jun/26: 25.2km"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">15.8km</div><div class="bar" style="height:29%; background:var(--c-corrida);" title="Jul/26: 15.8km"></div><div class="bar-label">Jul/26</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Musculação — sessões/mês</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:17%; background:var(--c-musc);" title="Jun/25: 5x"></div><div class="bar-label">Jun/25</div></div><div class="bar-col"><div class="bar-value">18x</div><div class="bar" style="height:62%; background:var(--c-musc);" title="Jul/25: 18x"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">25x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="Ago/25: 25x"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">23x</div><div class="bar" style="height:79%; background:var(--c-musc);" title="Set/25: 23x"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">16x</div><div class="bar" style="height:55%; background:var(--c-musc);" title="Out/25: 16x"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">26x</div><div class="bar" style="height:90%; background:var(--c-musc);" title="Nov/25: 26x"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">27x</div><div class="bar" style="height:93%; background:var(--c-musc);" title="Dez/25: 27x"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">19x</div><div class="bar" style="height:66%; background:var(--c-musc);" title="Jan/26: 19x"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">20x</div><div class="bar" style="height:69%; background:var(--c-musc);" title="Fev/26: 20x"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">29x</div><div class="bar" style="height:100%; background:var(--c-musc);" title="Mar/26: 29x"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">9x</div><div class="bar" style="height:31%; background:var(--c-musc);" title="Abr/26: 9x"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">22x</div><div class="bar" style="height:76%; background:var(--c-musc);" title="Mai/26: 22x"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">25x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="Jun/26: 25x"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:52%; background:var(--c-musc);" title="Jul/26: 15x"></div><div class="bar-label">Jul/26</div></div></div><div class="bar-col"><div class="bar-value">18x</div><div class="bar" style="height:62%; background:var(--c-musc);" title="Jul/25: 18x"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">25x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="Ago/25: 25x"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">23x</div><div class="bar" style="height:79%; background:var(--c-musc);" title="Set/25: 23x"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">16x</div><div class="bar" style="height:55%; background:var(--c-musc);" title="Out/25: 16x"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">26x</div><div class="bar" style="height:90%; background:var(--c-musc);" title="Nov/25: 26x"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">27x</div><div class="bar" style="height:93%; background:var(--c-musc);" title="Dez/25: 27x"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">19x</div><div class="bar" style="height:66%; background:var(--c-musc);" title="Jan/26: 19x"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">20x</div><div class="bar" style="height:69%; background:var(--c-musc);" title="Fev/26: 20x"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">29x</div><div class="bar" style="height:100%; background:var(--c-musc);" title="Mar/26: 29x"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">9x</div><div class="bar" style="height:31%; background:var(--c-musc);" title="Abr/26: 9x"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">22x</div><div class="bar" style="height:76%; background:var(--c-musc);" title="Mai/26: 22x"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">25x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="Jun/26: 25x"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">14x</div><div class="bar" style="height:48%; background:var(--c-musc);" title="Jul/26: 14x"></div><div class="bar-label">Jul/26</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Spinning — sessões/mês</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:11%; background:var(--c-spin);" title="Jun/25: 2x"></div><div class="bar-label">Jun/25</div></div><div class="bar-col"><div class="bar-value">10x</div><div class="bar" style="height:53%; background:var(--c-spin);" title="Jul/25: 10x"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">8x</div><div class="bar" style="height:42%; background:var(--c-spin);" title="Ago/25: 8x"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Set/25: 15x"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">19x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="Out/25: 19x"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">18x</div><div class="bar" style="height:95%; background:var(--c-spin);" title="Nov/25: 18x"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Dez/25: 15x"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Jan/26: 15x"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">10x</div><div class="bar" style="height:53%; background:var(--c-spin);" title="Fev/26: 10x"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">8x</div><div class="bar" style="height:42%; background:var(--c-spin);" title="Mar/26: 8x"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:26%; background:var(--c-spin);" title="Abr/26: 5x"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">4x</div><div class="bar" style="height:21%; background:var(--c-spin);" title="Mai/26: 4x"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">11x</div><div class="bar" style="height:58%; background:var(--c-spin);" title="Jun/26: 11x"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:11%; background:var(--c-spin);" title="Jul/26: 2x"></div><div class="bar-label">Jul/26</div></div></div><div class="bar-col"><div class="bar-value">10x</div><div class="bar" style="height:53%; background:var(--c-spin);" title="Jul/25: 10x"></div><div class="bar-label">Jul/25</div></div><div class="bar-col"><div class="bar-value">8x</div><div class="bar" style="height:42%; background:var(--c-spin);" title="Ago/25: 8x"></div><div class="bar-label">Ago/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Set/25: 15x"></div><div class="bar-label">Set/25</div></div><div class="bar-col"><div class="bar-value">19x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="Out/25: 19x"></div><div class="bar-label">Out/25</div></div><div class="bar-col"><div class="bar-value">18x</div><div class="bar" style="height:95%; background:var(--c-spin);" title="Nov/25: 18x"></div><div class="bar-label">Nov/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Dez/25: 15x"></div><div class="bar-label">Dez/25</div></div><div class="bar-col"><div class="bar-value">15x</div><div class="bar" style="height:79%; background:var(--c-spin);" title="Jan/26: 15x"></div><div class="bar-label">Jan/26</div></div><div class="bar-col"><div class="bar-value">10x</div><div class="bar" style="height:53%; background:var(--c-spin);" title="Fev/26: 10x"></div><div class="bar-label">Fev/26</div></div><div class="bar-col"><div class="bar-value">8x</div><div class="bar" style="height:42%; background:var(--c-spin);" title="Mar/26: 8x"></div><div class="bar-label">Mar/26</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:26%; background:var(--c-spin);" title="Abr/26: 5x"></div><div class="bar-label">Abr/26</div></div><div class="bar-col"><div class="bar-value">4x</div><div class="bar" style="height:21%; background:var(--c-spin);" title="Mai/26: 4x"></div><div class="bar-label">Mai/26</div></div><div class="bar-col"><div class="bar-value">11x</div><div class="bar" style="height:58%; background:var(--c-spin);" title="Jun/26: 11x"></div><div class="bar-label">Jun/26</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:11%; background:var(--c-spin);" title="Jul/26: 2x"></div><div class="bar-label">Jul/26</div></div></div>
+    </div>
+  </div>
+
+  <div class="section-title">🗓️ Últimas 16 semanas <span class="section-sub">visão semanal, mais próxima do dia a dia</span></div>
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-card-title">Corrida — km/semana</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">7.8km</div><div class="bar" style="height:34%; background:var(--c-corrida);" title="23/03: 7.8km"></div><div class="bar-label">23/03</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="30/03: 0km"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">2.6km</div><div class="bar" style="height:11%; background:var(--c-corrida);" title="13/04: 2.6km"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">12.8km</div><div class="bar" style="height:56%; background:var(--c-corrida);" title="20/04: 12.8km"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">14.9km</div><div class="bar" style="height:65%; background:var(--c-corrida);" title="27/04: 14.9km"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">6.5km</div><div class="bar" style="height:28%; background:var(--c-corrida);" title="04/05: 6.5km"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">15.1km</div><div class="bar" style="height:66%; background:var(--c-corrida);" title="11/05: 15.1km"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">3.4km</div><div class="bar" style="height:15%; background:var(--c-corrida);" title="18/05: 3.4km"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">22.9km</div><div class="bar" style="height:100%; background:var(--c-corrida);" title="25/05: 22.9km"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">2.7km</div><div class="bar" style="height:12%; background:var(--c-corrida);" title="01/06: 2.7km"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">8.2km</div><div class="bar" style="height:36%; background:var(--c-corrida);" title="08/06: 8.2km"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">7.3km</div><div class="bar" style="height:32%; background:var(--c-corrida);" title="15/06: 7.3km"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">7.1km</div><div class="bar" style="height:31%; background:var(--c-corrida);" title="22/06: 7.1km"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">6.6km</div><div class="bar" style="height:29%; background:var(--c-corrida);" title="29/06: 6.6km"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">9.3km</div><div class="bar" style="height:41%; background:var(--c-corrida);" title="06/07: 9.3km"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">4km</div><div class="bar" style="height:17%; background:var(--c-corrida);" title="13/07: 4km"></div><div class="bar-label">13/07</div></div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="30/03: 0km"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">2.6km</div><div class="bar" style="height:11%; background:var(--c-corrida);" title="13/04: 2.6km"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">12.8km</div><div class="bar" style="height:56%; background:var(--c-corrida);" title="20/04: 12.8km"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">14.9km</div><div class="bar" style="height:65%; background:var(--c-corrida);" title="27/04: 14.9km"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">6.5km</div><div class="bar" style="height:28%; background:var(--c-corrida);" title="04/05: 6.5km"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">15.1km</div><div class="bar" style="height:66%; background:var(--c-corrida);" title="11/05: 15.1km"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">3.4km</div><div class="bar" style="height:15%; background:var(--c-corrida);" title="18/05: 3.4km"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">22.9km</div><div class="bar" style="height:100%; background:var(--c-corrida);" title="25/05: 22.9km"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">2.7km</div><div class="bar" style="height:12%; background:var(--c-corrida);" title="01/06: 2.7km"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">8.2km</div><div class="bar" style="height:36%; background:var(--c-corrida);" title="08/06: 8.2km"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">7.3km</div><div class="bar" style="height:32%; background:var(--c-corrida);" title="15/06: 7.3km"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">7.1km</div><div class="bar" style="height:31%; background:var(--c-corrida);" title="22/06: 7.1km"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">6.6km</div><div class="bar" style="height:29%; background:var(--c-corrida);" title="29/06: 6.6km"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">9.3km</div><div class="bar" style="height:41%; background:var(--c-corrida);" title="06/07: 9.3km"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">0km</div><div class="bar" style="height:2%; background:var(--c-corrida);" title="13/07: 0km"></div><div class="bar-label">13/07</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Musculação — sessões/semana</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">7x</div><div class="bar" style="height:100%; background:var(--c-musc);" title="23/03: 7x"></div><div class="bar-label">23/03</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:14%; background:var(--c-musc);" title="30/03: 1x"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="13/04: 5x"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:14%; background:var(--c-musc);" title="20/04: 1x"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:43%; background:var(--c-musc);" title="27/04: 3x"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="04/05: 5x"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">7x</div><div class="bar" style="height:100%; background:var(--c-musc);" title="11/05: 7x"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="18/05: 5x"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="25/05: 5x"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="01/06: 6x"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="08/06: 6x"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="15/06: 5x"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="22/06: 6x"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="29/06: 6x"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="06/07: 6x"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="13/07: 5x"></div><div class="bar-label">13/07</div></div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:14%; background:var(--c-musc);" title="30/03: 1x"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="13/04: 5x"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:14%; background:var(--c-musc);" title="20/04: 1x"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:43%; background:var(--c-musc);" title="27/04: 3x"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="04/05: 5x"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">7x</div><div class="bar" style="height:100%; background:var(--c-musc);" title="11/05: 7x"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="18/05: 5x"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="25/05: 5x"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="01/06: 6x"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="08/06: 6x"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">5x</div><div class="bar" style="height:71%; background:var(--c-musc);" title="15/06: 5x"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="22/06: 6x"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="29/06: 6x"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">6x</div><div class="bar" style="height:86%; background:var(--c-musc);" title="06/07: 6x"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">4x</div><div class="bar" style="height:57%; background:var(--c-musc);" title="13/07: 4x"></div><div class="bar-label">13/07</div></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Spinning — sessões/semana</div>
+      <div class="chart-bars"><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="23/03: 2x"></div><div class="bar-label">23/03</div></div><div class="bar-col"><div class="bar-value">0x</div><div class="bar" style="height:2%; background:var(--c-spin);" title="30/03: 0x"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="13/04: 2x"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="20/04: 1x"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="27/04: 2x"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="04/05: 2x"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="11/05: 1x"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="18/05: 1x"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">0x</div><div class="bar" style="height:2%; background:var(--c-spin);" title="25/05: 0x"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="01/06: 3x"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="08/06: 3x"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="15/06: 2x"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="22/06: 2x"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="29/06: 1x"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="06/07: 1x"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="13/07: 1x"></div><div class="bar-label">13/07</div></div></div><div class="bar-col"><div class="bar-value">0x</div><div class="bar" style="height:2%; background:var(--c-spin);" title="30/03: 0x"></div><div class="bar-label">30/03</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="13/04: 2x"></div><div class="bar-label">13/04</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="20/04: 1x"></div><div class="bar-label">20/04</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="27/04: 2x"></div><div class="bar-label">27/04</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="04/05: 2x"></div><div class="bar-label">04/05</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="11/05: 1x"></div><div class="bar-label">11/05</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="18/05: 1x"></div><div class="bar-label">18/05</div></div><div class="bar-col"><div class="bar-value">0x</div><div class="bar" style="height:2%; background:var(--c-spin);" title="25/05: 0x"></div><div class="bar-label">25/05</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="01/06: 3x"></div><div class="bar-label">01/06</div></div><div class="bar-col"><div class="bar-value">3x</div><div class="bar" style="height:100%; background:var(--c-spin);" title="08/06: 3x"></div><div class="bar-label">08/06</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="15/06: 2x"></div><div class="bar-label">15/06</div></div><div class="bar-col"><div class="bar-value">2x</div><div class="bar" style="height:67%; background:var(--c-spin);" title="22/06: 2x"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="29/06: 1x"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="06/07: 1x"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">1x</div><div class="bar" style="height:33%; background:var(--c-spin);" title="13/07: 1x"></div><div class="bar-label">13/07</div></div></div>
+    </div>
+  </div>
+
+  <div class="section-title">📋 Log diário <span class="section-sub">últimos 45 dias, mais recente primeiro</span></div>
+  <div class="legend-row">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--c-corrida)"></span>Corrida</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--c-musc)"></span>Musculação</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--c-spin)"></span>Spinning</div>
+  </div>
+  <div class="log-table-wrap">
+    <div class="log-scroll">
+      <table class="log-table">
+        <thead><tr><th>Data</th><th>Dia</th><th>Tipo</th><th>Duração</th><th>Detalhe</th><th>Cal</th></tr></thead>
+        <tbody>
+<tr class="row-corrida"><td>17/07</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>27.2min</td><td>4.04km · pace 6:43/km</td><td>326 cal</td></tr>
+<tr class="row-musc"><td>17/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>87.2min</td><td>-</td><td>511 cal</td></tr>
+<tr class="row-musc"><td>16/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.2min</td><td>-</td><td>524 cal</td></tr>
+<tr class="row-spin"><td>15/07</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>45.3min</td><td>-</td><td>450 cal</td></tr>
+<tr class="row-musc"><td>15/07</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>65.3min</td><td>-</td><td>409 cal</td></tr>
+<tr class="row-musc"><td>14/07</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>76.5min</td><td>-</td><td>496 cal</td></tr>
+<tr class="row-musc"><td>13/07</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>78.6min</td><td>-</td><td>554 cal</td></tr>
+<tr class="row-corrida"><td>12/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.0min</td><td>5.04km · pace 6:09/km</td><td>505 cal</td></tr>
+<tr class="row-musc"><td>11/07</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.9min</td><td>-</td><td>556 cal</td></tr>
+<tr class="row-musc"><td>10/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>81.0min</td><td>-</td><td>548 cal</td></tr>
+<tr class="row-musc"><td>09/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>99.9min</td><td>-</td><td>689 cal</td></tr>
+<tr class="row-spin"><td>08/07</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>44.1min</td><td>-</td><td>369 cal</td></tr>
+<tr class="row-musc"><td>08/07</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>94.0min</td><td>-</td><td>560 cal</td></tr>
+<tr class="row-corrida"><td>07/07</td><td>Ter</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.7min</td><td>4.22km · pace 7:30/km</td><td>361 cal</td></tr>
+<tr class="row-musc"><td>07/07</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>55.6min</td><td>-</td><td>336 cal</td></tr>
+<tr class="row-musc"><td>06/07</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>56.7min</td><td>-</td><td>365 cal</td></tr>
+<tr class="row-corrida"><td>05/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.4min</td><td>2.64km · pace 7:44/km</td><td>244 cal</td></tr>
+<tr class="row-musc"><td>05/07</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>78.1min</td><td>-</td><td>506 cal</td></tr>
+<tr class="row-musc"><td>04/07</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>92.0min</td><td>-</td><td>622 cal</td></tr>
+<tr class="row-musc"><td>03/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>111.1min</td><td>-</td><td>643 cal</td></tr>
+<tr class="row-musc"><td>02/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>16.7min</td><td>-</td><td>91 cal</td></tr>
+<tr class="row-corrida"><td>02/07</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>30.4min</td><td>3.92km · pace 7:44/km</td><td>356 cal</td></tr>
+<tr class="row-musc"><td>30/06</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>73.0min</td><td>-</td><td>381 cal</td></tr>
+<tr class="row-spin"><td>29/06</td><td>Seg</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>30.1min</td><td>-</td><td>319 cal</td></tr>
+<tr class="row-musc"><td>29/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>59.6min</td><td>-</td><td>333 cal</td></tr>
+<tr class="row-corrida"><td>28/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>14.4min</td><td>2.01km · pace 7:12/km</td><td>182 cal</td></tr>
+<tr class="row-musc"><td>28/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>75.3min</td><td>-</td><td>471 cal</td></tr>
+<tr class="row-corrida"><td>27/06</td><td>Sáb</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>19.5min</td><td>3.02km · pace 6:26/km</td><td>246 cal</td></tr>
+<tr class="row-musc"><td>27/06</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>60.7min</td><td>-</td><td>331 cal</td></tr>
+<tr class="row-musc"><td>26/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.0min</td><td>-</td><td>495 cal</td></tr>
+<tr class="row-corrida"><td>25/06</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>13.6min</td><td>2.02km · pace 6:43/km</td><td>161 cal</td></tr>
+<tr class="row-spin"><td>25/06</td><td>Qui</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>44.2min</td><td>-</td><td>406 cal</td></tr>
+<tr class="row-musc"><td>24/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>82.0min</td><td>-</td><td>463 cal</td></tr>
+<tr class="row-spin"><td>23/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>47.1min</td><td>-</td><td>446 cal</td></tr>
+<tr class="row-musc"><td>23/06</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>68.1min</td><td>-</td><td>396 cal</td></tr>
+<tr class="row-musc"><td>22/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>84.5min</td><td>-</td><td>507 cal</td></tr>
+<tr class="row-musc"><td>21/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>111.2min</td><td>-</td><td>716 cal</td></tr>
+<tr class="row-musc"><td>19/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>61.9min</td><td>-</td><td>432 cal</td></tr>
+<tr class="row-musc"><td>18/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>63.5min</td><td>-</td><td>361 cal</td></tr>
+<tr class="row-spin"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>42.8min</td><td>-</td><td>378 cal</td></tr>
+<tr class="row-corrida"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>23.3min</td><td>3.01km · pace 7:45/km</td><td>293 cal</td></tr>
+<tr class="row-musc"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>85.4min</td><td>-</td><td>483 cal</td></tr>
+<tr class="row-spin"><td>16/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>51.5min</td><td>-</td><td>541 cal</td></tr>
+<tr class="row-corrida"><td>15/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.9min</td><td>4.29km · pace 7:25/km</td><td>388 cal</td></tr>
+<tr class="row-musc"><td>15/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.4min</td><td>-</td><td>449 cal</td></tr>
+<tr class="row-corrida"><td>14/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>17.6min</td><td>2.39km · pace 7:21/km</td><td>218 cal</td></tr>
+<tr class="row-musc"><td>14/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>89.7min</td><td>-</td><td>552 cal</td></tr>
+<tr class="row-corrida"><td>12/06</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>22.9min</td><td>3.02km · pace 7:34/km</td><td>267 cal</td></tr>
+<tr class="row-musc"><td>12/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>72.0min</td><td>-</td><td>399 cal</td></tr>
+<tr class="row-spin"><td>11/06</td><td>Qui</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>52.3min</td><td>-</td><td>497 cal</td></tr>
+<tr class="row-musc"><td>11/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>27.6min</td><td>-</td><td>202 cal</td></tr>
+<tr class="row-musc"><td>10/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.3min</td><td>-</td><td>490 cal</td></tr>
+<tr class="row-spin"><td>09/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>47.2min</td><td>-</td><td>513 cal</td></tr>
+<tr class="row-musc"><td>09/06</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>70.1min</td><td>-</td><td>368 cal</td></tr>
+<tr class="row-spin"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>40.3min</td><td>-</td><td>433 cal</td></tr>
+<tr class="row-corrida"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.2min</td><td>2.74km · pace 7:23/km</td><td>246 cal</td></tr>
+<tr class="row-musc"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>65.3min</td><td>-</td><td>356 cal</td></tr>
+<tr class="row-corrida"><td>07/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.0min</td><td>2.67km · pace 7:29/km</td><td>269 cal</td></tr>
+<tr class="row-musc"><td>07/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>64.2min</td><td>-</td><td>407 cal</td></tr>
+<tr class="row-musc"><td>05/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>66.0min</td><td>-</td><td>341 cal</td></tr>
+<tr class="row-musc"><td>04/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>72.9min</td><td>-</td><td>406 cal</td></tr>
+<tr class="row-spin"><td>03/06</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>41.8min</td><td>-</td><td>452 cal</td></tr>
+<tr class="row-musc"><td>03/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>70.5min</td><td>-</td><td>418 cal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    Dados extraídos do Apple Saúde em 18/07/2026 · Compartilhe um novo export do app Saúde a qualquer momento pra atualizar este painel<br>
+    Plano de treino completo: plano_corrida_18km.md · Calendário visual: plano_corrida_18km_calendario.html
+  </footer>
+
+</div>
+</body>
+</html>
