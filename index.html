@@ -128,6 +128,13 @@
   .badge-good { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; color: var(--good); }
   .badge-good::before { content: '●'; font-size: 8px; }
 
+  .venue-split { display: flex; gap: 10px; margin: 6px 0 8px; }
+  .venue-bar-wrap { flex: 1; }
+  .venue-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-secondary); margin-bottom: 3px; }
+  .venue-bar-track { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--gridline); }
+  .venue-bar-esteira { background: #2a78d6; }
+  .venue-bar-rua { background: #16a34a; }
+
   .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .chart-card {
     background: var(--card-bg);
@@ -242,7 +249,17 @@
         <div class="kpi-num-block"><div class="num">8</div><div class="lbl">30 dias</div></div>
         <div class="kpi-num-block"><div class="num">26,9km</div><div class="lbl">km 30d</div></div>
       </div>
-      <div class="kpi-foot"><span class="badge-good">Plano iniciado — 1º treino em 17/07 ✓</span> · maior distância (13m): 6,1km</div>
+      <div class="venue-split">
+        <div class="venue-bar-wrap">
+          <div class="venue-bar-label"><span>🏃 Esteira</span><span>88%</span></div>
+          <div class="venue-bar-track"><div class="venue-bar-esteira" style="width:88%; height:100%;"></div></div>
+        </div>
+        <div class="venue-bar-wrap">
+          <div class="venue-bar-label"><span>🛤️ Rua</span><span>12%</span></div>
+          <div class="venue-bar-track"><div class="venue-bar-rua" style="width:12%; height:100%;"></div></div>
+        </div>
+      </div>
+      <div class="kpi-foot">13 meses: 205,7km esteira (59x) · 26,9km rua (6x) · maior distância: 6,1km</div>
     </div>
     <div class="kpi-card c-musc">
       <div class="kpi-head">🏋️ Musculação</div>
@@ -301,7 +318,7 @@
       <div style="font-size:10px; color:var(--muted); margin-top:6px;">* dia de hoje, dado parcial (extração feita antes do fim do dia)</div>
     </div>
     <div class="chart-card">
-      <div class="chart-card-title">🆕 Calorias Ativas — últimos 30 dias</div>
+      <div class="chart-card-title">⚡ Calorias Ativas — últimos 30 dias</div>
       <div class="chart-bars chart-bars-dense"><div class="bar-col"><div class="bar-value">761</div><div class="bar" style="height:34%; background:var(--c-cal-active);" title="20/06: 761cal ativas"></div><div class="bar-label">20/06</div></div><div class="bar-col"><div class="bar-value">1191</div><div class="bar" style="height:53%; background:var(--c-cal-active);" title="21/06: 1191cal ativas"></div><div class="bar-label">21/06</div></div><div class="bar-col"><div class="bar-value">1197</div><div class="bar" style="height:53%; background:var(--c-cal-active);" title="22/06: 1197cal ativas"></div><div class="bar-label">22/06</div></div><div class="bar-col"><div class="bar-value">1464</div><div class="bar" style="height:65%; background:var(--c-cal-active);" title="23/06: 1464cal ativas"></div><div class="bar-label">23/06</div></div><div class="bar-col"><div class="bar-value">1270</div><div class="bar" style="height:56%; background:var(--c-cal-active);" title="24/06: 1270cal ativas"></div><div class="bar-label">24/06</div></div><div class="bar-col"><div class="bar-value">1321</div><div class="bar" style="height:59%; background:var(--c-cal-active);" title="25/06: 1321cal ativas"></div><div class="bar-label">25/06</div></div><div class="bar-col"><div class="bar-value">1130</div><div class="bar" style="height:50%; background:var(--c-cal-active);" title="26/06: 1130cal ativas"></div><div class="bar-label">26/06</div></div><div class="bar-col"><div class="bar-value">1111</div><div class="bar" style="height:49%; background:var(--c-cal-active);" title="27/06: 1111cal ativas"></div><div class="bar-label">27/06</div></div><div class="bar-col"><div class="bar-value">1168</div><div class="bar" style="height:52%; background:var(--c-cal-active);" title="28/06: 1168cal ativas"></div><div class="bar-label">28/06</div></div><div class="bar-col"><div class="bar-value">1545</div><div class="bar" style="height:69%; background:var(--c-cal-active);" title="29/06: 1545cal ativas"></div><div class="bar-label">29/06</div></div><div class="bar-col"><div class="bar-value">1200</div><div class="bar" style="height:53%; background:var(--c-cal-active);" title="30/06: 1200cal ativas"></div><div class="bar-label">30/06</div></div><div class="bar-col"><div class="bar-value">718</div><div class="bar" style="height:32%; background:var(--c-cal-active);" title="01/07: 718cal ativas"></div><div class="bar-label">01/07</div></div><div class="bar-col"><div class="bar-value">1477</div><div class="bar" style="height:66%; background:var(--c-cal-active);" title="02/07: 1477cal ativas"></div><div class="bar-label">02/07</div></div><div class="bar-col"><div class="bar-value">1355</div><div class="bar" style="height:60%; background:var(--c-cal-active);" title="03/07: 1355cal ativas"></div><div class="bar-label">03/07</div></div><div class="bar-col"><div class="bar-value">1117</div><div class="bar" style="height:50%; background:var(--c-cal-active);" title="04/07: 1117cal ativas"></div><div class="bar-label">04/07</div></div><div class="bar-col"><div class="bar-value">1800</div><div class="bar" style="height:80%; background:var(--c-cal-active);" title="05/07: 1800cal ativas"></div><div class="bar-label">05/07</div></div><div class="bar-col"><div class="bar-value">1161</div><div class="bar" style="height:52%; background:var(--c-cal-active);" title="06/07: 1161cal ativas"></div><div class="bar-label">06/07</div></div><div class="bar-col"><div class="bar-value">1716</div><div class="bar" style="height:76%; background:var(--c-cal-active);" title="07/07: 1716cal ativas"></div><div class="bar-label">07/07</div></div><div class="bar-col"><div class="bar-value">1951</div><div class="bar" style="height:87%; background:var(--c-cal-active);" title="08/07: 1951cal ativas"></div><div class="bar-label">08/07</div></div><div class="bar-col"><div class="bar-value">1344</div><div class="bar" style="height:60%; background:var(--c-cal-active);" title="09/07: 1344cal ativas"></div><div class="bar-label">09/07</div></div><div class="bar-col"><div class="bar-value">1372</div><div class="bar" style="height:61%; background:var(--c-cal-active);" title="10/07: 1372cal ativas"></div><div class="bar-label">10/07</div></div><div class="bar-col"><div class="bar-value">1655</div><div class="bar" style="height:73%; background:var(--c-cal-active);" title="11/07: 1655cal ativas"></div><div class="bar-label">11/07</div></div><div class="bar-col"><div class="bar-value">1399</div><div class="bar" style="height:62%; background:var(--c-cal-active);" title="12/07: 1399cal ativas"></div><div class="bar-label">12/07</div></div><div class="bar-col"><div class="bar-value">1797</div><div class="bar" style="height:80%; background:var(--c-cal-active);" title="13/07: 1797cal ativas"></div><div class="bar-label">13/07</div></div><div class="bar-col"><div class="bar-value">1496</div><div class="bar" style="height:66%; background:var(--c-cal-active);" title="14/07: 1496cal ativas"></div><div class="bar-label">14/07</div></div><div class="bar-col"><div class="bar-value">2254</div><div class="bar" style="height:100%; background:var(--c-cal-active);" title="15/07: 2254cal ativas"></div><div class="bar-label">15/07</div></div><div class="bar-col"><div class="bar-value">1858</div><div class="bar" style="height:82%; background:var(--c-cal-active);" title="16/07: 1858cal ativas"></div><div class="bar-label">16/07</div></div><div class="bar-col"><div class="bar-value">1892</div><div class="bar" style="height:84%; background:var(--c-cal-active);" title="17/07: 1892cal ativas"></div><div class="bar-label">17/07</div></div><div class="bar-col"><div class="bar-value">1219*</div><div class="bar" style="height:54%; background:var(--c-cal-active);" title="18/07 (parcial): 1219cal ativas"></div><div class="bar-label">18/07</div></div></div>
       <div style="font-size:10px; color:var(--muted); margin-top:6px;">* dia de hoje, dado parcial</div>
     </div>
@@ -343,7 +360,7 @@
     </div>
   </div>
 
-  <div class="section-title">📋 Log diário <span class="section-sub">últimos 45 dias, mais recente primeiro</span></div>
+  <div class="section-title">📋 Log diário <span class="section-sub">últimos 45 dias, mais recente primeiro — corridas mostram 🏃 Esteira ou 🛤️ Rua</span></div>
   <div class="legend-row">
     <div class="legend-item"><span class="legend-dot" style="background:var(--c-corrida)"></span>Corrida</div>
     <div class="legend-item"><span class="legend-dot" style="background:var(--c-musc)"></span>Musculação</div>
@@ -355,37 +372,37 @@
         <thead><tr><th>Data</th><th>Dia</th><th>Tipo</th><th>Duração</th><th>Detalhe</th><th>Cal</th></tr></thead>
         <tbody>
 <tr class="row-musc"><td>18/07</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>95.0min</td><td>-</td><td>623 cal</td></tr>
-<tr class="row-corrida"><td>17/07</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>27.2min</td><td>4.04km · pace 6:43/km</td><td>326 cal</td></tr>
+<tr class="row-corrida"><td>17/07</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>27.2min</td><td>4.04km · pace 6:43/km · 🏃 Esteira</td><td>326 cal</td></tr>
 <tr class="row-musc"><td>17/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>87.2min</td><td>-</td><td>511 cal</td></tr>
 <tr class="row-musc"><td>16/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.2min</td><td>-</td><td>524 cal</td></tr>
 <tr class="row-spin"><td>15/07</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>45.3min</td><td>-</td><td>450 cal</td></tr>
 <tr class="row-musc"><td>15/07</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>65.3min</td><td>-</td><td>409 cal</td></tr>
 <tr class="row-musc"><td>14/07</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>76.5min</td><td>-</td><td>496 cal</td></tr>
 <tr class="row-musc"><td>13/07</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>78.6min</td><td>-</td><td>554 cal</td></tr>
-<tr class="row-corrida"><td>12/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.0min</td><td>5.04km · pace 6:09/km</td><td>505 cal</td></tr>
+<tr class="row-corrida"><td>12/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.0min</td><td>5.04km · pace 6:09/km · 🛤️ Rua</td><td>505 cal</td></tr>
 <tr class="row-musc"><td>11/07</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.9min</td><td>-</td><td>556 cal</td></tr>
 <tr class="row-musc"><td>10/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>81.0min</td><td>-</td><td>548 cal</td></tr>
 <tr class="row-musc"><td>09/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>99.9min</td><td>-</td><td>689 cal</td></tr>
 <tr class="row-spin"><td>08/07</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>44.1min</td><td>-</td><td>369 cal</td></tr>
 <tr class="row-musc"><td>08/07</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>94.0min</td><td>-</td><td>560 cal</td></tr>
-<tr class="row-corrida"><td>07/07</td><td>Ter</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.7min</td><td>4.22km · pace 7:30/km</td><td>361 cal</td></tr>
+<tr class="row-corrida"><td>07/07</td><td>Ter</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.7min</td><td>4.22km · pace 7:30/km · 🏃 Esteira</td><td>361 cal</td></tr>
 <tr class="row-musc"><td>07/07</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>55.6min</td><td>-</td><td>336 cal</td></tr>
 <tr class="row-musc"><td>06/07</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>56.7min</td><td>-</td><td>365 cal</td></tr>
-<tr class="row-corrida"><td>05/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.4min</td><td>2.64km · pace 7:44/km</td><td>244 cal</td></tr>
+<tr class="row-corrida"><td>05/07</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.4min</td><td>2.64km · pace 7:44/km · 🏃 Esteira</td><td>244 cal</td></tr>
 <tr class="row-musc"><td>05/07</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>78.1min</td><td>-</td><td>506 cal</td></tr>
 <tr class="row-musc"><td>04/07</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>92.0min</td><td>-</td><td>622 cal</td></tr>
 <tr class="row-musc"><td>03/07</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>111.1min</td><td>-</td><td>643 cal</td></tr>
 <tr class="row-musc"><td>02/07</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>16.7min</td><td>-</td><td>91 cal</td></tr>
-<tr class="row-corrida"><td>02/07</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>30.4min</td><td>3.92km · pace 7:44/km</td><td>356 cal</td></tr>
+<tr class="row-corrida"><td>02/07</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>30.4min</td><td>3.92km · pace 7:44/km · 🏃 Esteira</td><td>356 cal</td></tr>
 <tr class="row-musc"><td>30/06</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>73.0min</td><td>-</td><td>381 cal</td></tr>
 <tr class="row-spin"><td>29/06</td><td>Seg</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>30.1min</td><td>-</td><td>319 cal</td></tr>
 <tr class="row-musc"><td>29/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>59.6min</td><td>-</td><td>333 cal</td></tr>
-<tr class="row-corrida"><td>28/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>14.4min</td><td>2.01km · pace 7:12/km</td><td>182 cal</td></tr>
+<tr class="row-corrida"><td>28/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>14.4min</td><td>2.01km · pace 7:12/km · 🏃 Esteira</td><td>182 cal</td></tr>
 <tr class="row-musc"><td>28/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>75.3min</td><td>-</td><td>471 cal</td></tr>
-<tr class="row-corrida"><td>27/06</td><td>Sáb</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>19.5min</td><td>3.02km · pace 6:26/km</td><td>246 cal</td></tr>
+<tr class="row-corrida"><td>27/06</td><td>Sáb</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>19.5min</td><td>3.02km · pace 6:26/km · 🏃 Esteira</td><td>246 cal</td></tr>
 <tr class="row-musc"><td>27/06</td><td>Sáb</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>60.7min</td><td>-</td><td>331 cal</td></tr>
 <tr class="row-musc"><td>26/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.0min</td><td>-</td><td>495 cal</td></tr>
-<tr class="row-corrida"><td>25/06</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>13.6min</td><td>2.02km · pace 6:43/km</td><td>161 cal</td></tr>
+<tr class="row-corrida"><td>25/06</td><td>Qui</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>13.6min</td><td>2.02km · pace 6:43/km · 🏃 Esteira</td><td>161 cal</td></tr>
 <tr class="row-spin"><td>25/06</td><td>Qui</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>44.2min</td><td>-</td><td>406 cal</td></tr>
 <tr class="row-musc"><td>24/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>82.0min</td><td>-</td><td>463 cal</td></tr>
 <tr class="row-spin"><td>23/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>47.1min</td><td>-</td><td>446 cal</td></tr>
@@ -395,14 +412,14 @@
 <tr class="row-musc"><td>19/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>61.9min</td><td>-</td><td>432 cal</td></tr>
 <tr class="row-musc"><td>18/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>63.5min</td><td>-</td><td>361 cal</td></tr>
 <tr class="row-spin"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>42.8min</td><td>-</td><td>378 cal</td></tr>
-<tr class="row-corrida"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>23.3min</td><td>3.01km · pace 7:45/km</td><td>293 cal</td></tr>
+<tr class="row-corrida"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>23.3min</td><td>3.01km · pace 7:45/km · 🏃 Esteira</td><td>293 cal</td></tr>
 <tr class="row-musc"><td>17/06</td><td>Qua</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>85.4min</td><td>-</td><td>483 cal</td></tr>
 <tr class="row-spin"><td>16/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>51.5min</td><td>-</td><td>541 cal</td></tr>
-<tr class="row-corrida"><td>15/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.9min</td><td>4.29km · pace 7:25/km</td><td>388 cal</td></tr>
+<tr class="row-corrida"><td>15/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>31.9min</td><td>4.29km · pace 7:25/km · 🏃 Esteira</td><td>388 cal</td></tr>
 <tr class="row-musc"><td>15/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>80.4min</td><td>-</td><td>449 cal</td></tr>
-<tr class="row-corrida"><td>14/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>17.6min</td><td>2.39km · pace 7:21/km</td><td>218 cal</td></tr>
+<tr class="row-corrida"><td>14/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>17.6min</td><td>2.39km · pace 7:21/km · 🏃 Esteira</td><td>218 cal</td></tr>
 <tr class="row-musc"><td>14/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>89.7min</td><td>-</td><td>552 cal</td></tr>
-<tr class="row-corrida"><td>12/06</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>22.9min</td><td>3.02km · pace 7:34/km</td><td>267 cal</td></tr>
+<tr class="row-corrida"><td>12/06</td><td>Sex</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>22.9min</td><td>3.02km · pace 7:34/km · 🏃 Esteira</td><td>267 cal</td></tr>
 <tr class="row-musc"><td>12/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>72.0min</td><td>-</td><td>399 cal</td></tr>
 <tr class="row-spin"><td>11/06</td><td>Qui</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>52.3min</td><td>-</td><td>497 cal</td></tr>
 <tr class="row-musc"><td>11/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>27.6min</td><td>-</td><td>202 cal</td></tr>
@@ -410,9 +427,9 @@
 <tr class="row-spin"><td>09/06</td><td>Ter</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>47.2min</td><td>-</td><td>513 cal</td></tr>
 <tr class="row-musc"><td>09/06</td><td>Ter</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>70.1min</td><td>-</td><td>368 cal</td></tr>
 <tr class="row-spin"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🚴 Spinning</td><td>40.3min</td><td>-</td><td>433 cal</td></tr>
-<tr class="row-corrida"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.2min</td><td>2.74km · pace 7:23/km</td><td>246 cal</td></tr>
+<tr class="row-corrida"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.2min</td><td>2.74km · pace 7:23/km · 🏃 Esteira</td><td>246 cal</td></tr>
 <tr class="row-musc"><td>08/06</td><td>Seg</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>65.3min</td><td>-</td><td>356 cal</td></tr>
-<tr class="row-corrida"><td>07/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.0min</td><td>2.67km · pace 7:29/km</td><td>269 cal</td></tr>
+<tr class="row-corrida"><td>07/06</td><td>Dom</td><td><span class="cat-dot"></span>🏃 Corrida</td><td>20.0min</td><td>2.67km · pace 7:29/km · 🏃 Esteira</td><td>269 cal</td></tr>
 <tr class="row-musc"><td>07/06</td><td>Dom</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>64.2min</td><td>-</td><td>407 cal</td></tr>
 <tr class="row-musc"><td>05/06</td><td>Sex</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>66.0min</td><td>-</td><td>341 cal</td></tr>
 <tr class="row-musc"><td>04/06</td><td>Qui</td><td><span class="cat-dot"></span>🏋️ Musculação</td><td>72.9min</td><td>-</td><td>406 cal</td></tr>
