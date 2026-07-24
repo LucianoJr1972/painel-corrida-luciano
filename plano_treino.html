@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de Treino — Acompanhamento Atividades Luciano</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  :root {
+    --surface-1: #fcfcfb; --page-plane: #f9f9f7; --text-primary: #0b0b0b; --text-secondary: #52514e;
+    --muted: #898781; --gridline: #e1e0d9; --border: rgba(11,11,11,0.10); --card-bg: #ffffff;
+    --c-base: #2a78d6; --c-construcao: #eb6834; --c-pico: #d6285f; --c-taper: #0d8a8a;
+    --good: #0ca30c; --now-bg: #fff7e0; --now-border: #f0d78a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page-plane: #0d0d0d; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+      --muted: #898781; --gridline: #2c2c2a; --border: rgba(255,255,255,0.10); --card-bg: #232322;
+      --c-base: #3987e5; --c-construcao: #d95926; --c-pico: #ea4c80; --c-taper: #2bb3b3;
+      --good: #0ca30c; --now-bg: #2a2410; --now-border: #4d431c;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark; --surface-1: #1a1a19; --page-plane: #0d0d0d; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+    --muted: #898781; --gridline: #2c2c2a; --border: rgba(255,255,255,0.10); --card-bg: #232322;
+    --c-base: #3987e5; --c-construcao: #d95926; --c-pico: #ea4c80; --c-taper: #2bb3b3; --now-bg: #2a2410; --now-border: #4d431c;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light; --surface-1: #fcfcfb; --page-plane: #f9f9f7; --text-primary: #0b0b0b; --text-secondary: #52514e;
+    --muted: #898781; --gridline: #e1e0d9; --border: rgba(11,11,11,0.10); --card-bg: #ffffff;
+    --c-base: #2a78d6; --c-construcao: #eb6834; --c-pico: #d6285f; --c-taper: #0d8a8a; --now-bg: #fff7e0; --now-border: #f0d78a;
+  }
+
+  body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--page-plane); color: var(--text-primary); padding: 16px 16px 60px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  .page-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 4px 18px; }
+  .page-nav-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .page-nav-link { font-size: 12.5px; font-weight: 700; color: #fff; background: var(--c-base); text-decoration: none; padding: 7px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
+  .page-nav-link:hover { opacity: .85; }
+
+  .hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #0ea5e9 130%); border-radius: 16px; padding: 26px 30px; color: #fff; margin-bottom: 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center; }
+  .hero-main { flex: 1; min-width: 260px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7dd3fc; font-weight: 700; }
+  .hero-title { font-size: 26px; font-weight: 800; margin: 6px 0 4px; }
+  .hero-sub { font-size: 13px; color: #cbd5e1; max-width: 640px; }
+  .hero-progress { flex-basis: 100%; }
+  .hero-progress-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.15); overflow: hidden; margin-top: 8px; }
+  .hero-progress-fill { height: 100%; background: #7dd3fc; border-radius: 4px; }
+  .hero-progress-txt { font-size: 11px; color: #cbd5e1; margin-top: 4px; }
+  .hero-countdown { text-align: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 14px 24px; min-width: 130px; }
+  .hero-countdown .num { font-size: 36px; font-weight: 800; color: #7dd3fc; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-countdown .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-top: 4px; }
+  @media (max-width: 860px) { .hero { flex-direction: column; align-items: flex-start; } }
+
+  .section-title { font-size: 15px; font-weight: 800; margin: 28px 0 12px; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+  .section-sub { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  .now-card { background: var(--now-bg); border: 1px solid var(--now-border); border-radius: 14px; padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .now-card .big { font-size: 13px; font-weight: 800; }
+  .now-nums { display: flex; gap: 22px; flex-wrap: wrap; }
+  .now-nums .num { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .now-nums .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .phase-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; border-top: 4px solid var(--pc); }
+  .phase-card.base { --pc: var(--c-base); }
+  .phase-card.construcao { --pc: var(--c-construcao); }
+  .phase-card.pico { --pc: var(--c-pico); }
+  .phase-card.taper { --pc: var(--c-taper); }
+  .phase-card.is-current { box-shadow: 0 0 0 2px var(--pc); }
+  .phase-name { font-size: 13px; font-weight: 800; }
+  .phase-weeks { font-size: 10.5px; color: var(--muted); margin-bottom: 8px; }
+  .phase-focus { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; }
+  .phase-current-tag { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: #fff; background: var(--pc); padding: 2px 7px; border-radius: 10px; margin-top: 8px; }
+
+  .status-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .status-chip.done { color: var(--good); background: rgba(12,163,12,.12); }
+  .status-chip.partial { color: #b8860b; background: rgba(250,178,25,.15); }
+  .status-chip.progress { color: var(--c-base); background: rgba(42,120,214,.12); }
+  .status-chip.future { color: var(--muted); background: var(--surface-1); }
+
+  .cal-month-title { font-size: 12.5px; font-weight: 800; color: var(--text-secondary); margin: 16px 2px 6px; }
+  .cal-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; overflow-x: auto; margin-bottom: 6px; }
+  .cal-grid { display: flex; flex-direction: column; gap: 4px; min-width: 640px; }
+  .cal-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; padding-bottom: 4px; }
+  .cal-day { min-height: 66px; border-radius: 8px; padding: 5px 6px; background: var(--surface-1); border: 1px solid var(--border); position: relative; }
+  .cal-day-outside { opacity: .3; }
+  .cal-day-today { border: 1.5px solid var(--c-base); background: rgba(42,120,214,.06); }
+  .cal-daynum { font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 3px; }
+  .cal-badge { font-size: 8.5px; font-weight: 700; border-radius: 4px; padding: 2px 4px; margin-top: 2px; line-height: 1.3; }
+  .cal-badge.v-esteira { background: rgba(42,120,214,.15); color: var(--c-base); }
+  .cal-badge.v-rua { background: rgba(12,163,12,.15); color: var(--good); }
+  .cal-badge.v-musc { background: rgba(0,131,0,.12); color: #007000; }
+  .cal-badge.v-spin { background: rgba(235,104,52,.15); color: #c1501f; }
+  .cal-longrun-tag { position: absolute; top: 4px; right: 5px; font-size: 11px; }
+  .cal-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--text-secondary); margin: 10px 2px 0; }
+  .cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .cal-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+
+  .table-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .table-scroll { max-height: 560px; overflow-y: auto; overflow-x: auto; }
+  table.week-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.week-table th { text-align: left; background: var(--surface-1); color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; padding: 8px 10px; border-bottom: 1px solid var(--gridline); position: sticky; top: 0; }
+  table.week-table td { padding: 7px 10px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  table.week-table tr:last-child td { border-bottom: none; }
+  table.week-table tr.is-current { background: var(--now-bg); }
+  table.week-table tr.is-current td:first-child { font-weight: 800; }
+  .phase-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+  .phase-dot.base { background: var(--c-base); }
+  .phase-dot.construcao { background: var(--c-construcao); }
+  .phase-dot.pico { background: var(--c-pico); }
+  .phase-dot.taper { background: var(--c-taper); }
+  .phase-dot.prova { background: var(--good); }
+
+  .pace-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .pace-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; text-align: center; }
+  .pace-card .lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .pace-card .val { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+  .note-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+  .note-card b { color: var(--text-primary); }
+  .note-card ul { margin: 8px 0 0; padding-left: 18px; }
+
+  footer { margin-top: 32px; font-size: 11px; color: var(--muted); text-align: center; }
+
+  @media (max-width: 1000px) { .phase-grid, .pace-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .phase-grid, .pace-grid { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page-nav">
+    <div class="page-nav-title">📋 Plano de Treino — 18KM</div>
+    <a class="page-nav-link" href="index.html">← Voltar ao Painel</a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-main">
+      <div class="hero-eyebrow">Projeto · Prova Alvo</div>
+      <div class="hero-title">🏁 Volta da Pampulha — 18KM</div>
+      <div class="hero-sub">Domingo, 06/12/2026 · Objetivo primário: terminar bem e sem lesão. Progressão conservadora (regra dos 10%/semana) — maior corrida já feita antes do plano foi 6,08km.</div>
+      <div class="hero-progress">
+        <div class="hero-progress-bar"><div class="hero-progress-fill" style="width:9.5%;"></div></div>
+        <div class="hero-progress-txt">Semana 2 de 21 · 9,5% do plano concluído</div>
+      </div>
+    </div>
+    <div class="hero-countdown"><div class="num">135</div><div class="lbl">dias restantes</div></div>
+    <div class="hero-countdown"><div class="num">19</div><div class="lbl">semanas restantes</div></div>
+  </div>
+
+  <div class="section-title">📍 Onde você está agora</div>
+  <div class="now-card">
+    <div class="big">Semana 2 de 21 · 20/07–26/07 · Fase Base</div>
+    <div class="now-nums">
+      <div><div class="num">3x</div><div class="lbl">frequência</div></div>
+      <div><div class="num">7km</div><div class="lbl">long run</div></div>
+      <div><div class="num">~16km</div><div class="lbl">volume total</div></div>
+      <div><div class="num">135</div><div class="lbl">dias p/ prova</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">🗂️ As 4 fases</div>
+  <div class="phase-grid">
+    <div class="phase-card base is-current">
+      <div class="phase-name">Base</div><div class="phase-weeks">Semanas 1–6</div>
+      <div class="phase-focus">Consistência, aumentar frequência para 4x/semana, volume aeróbico.</div>
+      <div class="phase-current-tag">Você está aqui</div>
+    </div>
+    <div class="phase-card construcao ">
+      <div class="phase-name">Construção</div><div class="phase-weeks">Semanas 7–13</div>
+      <div class="phase-focus">Tempo run semanal, long run progressivo até 14km.</div>
+      
+    </div>
+    <div class="phase-card pico ">
+      <div class="phase-name">Pico</div><div class="phase-weeks">Semanas 14–18</div>
+      <div class="phase-focus">Long run até 17km (pico), 1 treino no pace de prova.</div>
+      
+    </div>
+    <div class="phase-card taper ">
+      <div class="phase-name">Taper</div><div class="phase-weeks">Semanas 19–21</div>
+      <div class="phase-focus">Redução de volume, chegar descansado — prova no domingo 06/12.</div>
+      
+    </div>
+  </div>
+
+  <div class="section-title">🗓️ Calendário de Treinos <span class="section-sub">treinos reais + 🎯/✅/⏳ = dia de long run planejado · ❓ = corrida sem classificação esteira/rua ainda</span></div>
+  
+  <div class="cal-month-title">Julho/2026</div>
+  <div class="cal-wrap">
+    <div class="cal-grid"><div class="cal-week cal-header-row"><div class="cal-dow">Dom</div><div class="cal-dow">Seg</div><div class="cal-dow">Ter</div><div class="cal-dow">Qua</div><div class="cal-dow">Qui</div><div class="cal-dow">Sex</div><div class="cal-dow">Sáb</div></div><div class="cal-week"><div class="cal-day cal-day-outside"><div class="cal-daynum">28</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">29</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">30</div></div><div class="cal-day"><div class="cal-daynum">1</div></div><div class="cal-day"><div class="cal-daynum">2</div><div class="cal-badge v-musc">🏋️</div><div class="cal-badge v-esteira">🏃 3,92km</div></div><div class="cal-day"><div class="cal-daynum">3</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">4</div><div class="cal-badge v-musc">🏋️</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">5</div><div class="cal-badge v-esteira">🏃 2,64km</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">6</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">7</div><div class="cal-badge v-esteira">🏃 4,22km</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">8</div><div class="cal-badge v-spin">🚴</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">9</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">10</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">11</div><div class="cal-badge v-musc">🏋️</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">12</div><div class="cal-badge v-rua">🛤️ 5,04km</div></div><div class="cal-day"><div class="cal-daynum">13</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">14</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">15</div><div class="cal-badge v-spin">🚴</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">16</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">17</div><div class="cal-badge v-esteira">🏃 4,04km</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">18</div><div class="cal-badge v-musc">🏋️</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">19</div><div class="cal-longrun-tag" title="Long run planejado: 6km">✅</div><div class="cal-badge v-rua">🛤️ 6,04km</div></div><div class="cal-day"><div class="cal-daynum">20</div><div class="cal-badge v-spin">🚴</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">21</div><div class="cal-badge v-rua">🛤️ 4,56km ❓</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day"><div class="cal-daynum">22</div></div><div class="cal-day"><div class="cal-daynum">23</div><div class="cal-badge v-musc">🏋️</div></div><div class="cal-day cal-day-today"><div class="cal-daynum">24</div></div><div class="cal-day"><div class="cal-daynum">25</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">26</div><div class="cal-longrun-tag" title="Long run planejado: 7km">⏳</div></div><div class="cal-day"><div class="cal-daynum">27</div></div><div class="cal-day"><div class="cal-daynum">28</div></div><div class="cal-day"><div class="cal-daynum">29</div></div><div class="cal-day"><div class="cal-daynum">30</div></div><div class="cal-day"><div class="cal-daynum">31</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">1</div></div></div></div>
+  </div>
+  <div class="cal-month-title">Agosto/2026</div>
+  <div class="cal-wrap">
+    <div class="cal-grid"><div class="cal-week cal-header-row"><div class="cal-dow">Dom</div><div class="cal-dow">Seg</div><div class="cal-dow">Ter</div><div class="cal-dow">Qua</div><div class="cal-dow">Qui</div><div class="cal-dow">Sex</div><div class="cal-dow">Sáb</div></div><div class="cal-week"><div class="cal-day cal-day-outside"><div class="cal-daynum">26</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">27</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">28</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">29</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">30</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">31</div></div><div class="cal-day"><div class="cal-daynum">1</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">2</div><div class="cal-longrun-tag" title="Long run planejado: 7km">⏳</div></div><div class="cal-day"><div class="cal-daynum">3</div></div><div class="cal-day"><div class="cal-daynum">4</div></div><div class="cal-day"><div class="cal-daynum">5</div></div><div class="cal-day"><div class="cal-daynum">6</div></div><div class="cal-day"><div class="cal-daynum">7</div></div><div class="cal-day"><div class="cal-daynum">8</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">9</div><div class="cal-longrun-tag" title="Long run planejado: 6km">⏳</div></div><div class="cal-day"><div class="cal-daynum">10</div></div><div class="cal-day"><div class="cal-daynum">11</div></div><div class="cal-day"><div class="cal-daynum">12</div></div><div class="cal-day"><div class="cal-daynum">13</div></div><div class="cal-day"><div class="cal-daynum">14</div></div><div class="cal-day"><div class="cal-daynum">15</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">16</div><div class="cal-longrun-tag" title="Long run planejado: 8km">⏳</div></div><div class="cal-day"><div class="cal-daynum">17</div></div><div class="cal-day"><div class="cal-daynum">18</div></div><div class="cal-day"><div class="cal-daynum">19</div></div><div class="cal-day"><div class="cal-daynum">20</div></div><div class="cal-day"><div class="cal-daynum">21</div></div><div class="cal-day"><div class="cal-daynum">22</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">23</div><div class="cal-longrun-tag" title="Long run planejado: 9km">⏳</div></div><div class="cal-day"><div class="cal-daynum">24</div></div><div class="cal-day"><div class="cal-daynum">25</div></div><div class="cal-day"><div class="cal-daynum">26</div></div><div class="cal-day"><div class="cal-daynum">27</div></div><div class="cal-day"><div class="cal-daynum">28</div></div><div class="cal-day"><div class="cal-daynum">29</div></div></div><div class="cal-week"><div class="cal-day"><div class="cal-daynum">30</div><div class="cal-longrun-tag" title="Long run planejado: 10km">⏳</div></div><div class="cal-day"><div class="cal-daynum">31</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">1</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">2</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">3</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">4</div></div><div class="cal-day cal-day-outside"><div class="cal-daynum">5</div></div></div></div>
+  </div>
+  <div class="cal-legend">
+    <span><i style="background:rgba(42,120,214,.5);"></i>Corrida Esteira</span>
+    <span><i style="background:rgba(12,163,12,.5);"></i>Corrida Rua</span>
+    <span><i style="background:rgba(0,131,0,.4);"></i>Musculação</span>
+    <span><i style="background:rgba(235,104,52,.4);"></i>Spinning</span>
+    <span>🎯 = long run planejado · ✅ = meta cumprida · ⏳ = ainda não chegou</span>
+  </div>
+
+  <div class="section-title">📅 Semana a semana <span class="section-sub">a linha destacada é a semana atual · "Realizado" usa os treinos reais</span></div>
+  <div class="table-wrap">
+    <div class="table-scroll">
+      <table class="week-table">
+        <thead><tr><th>Sem</th><th>Datas</th><th>Fase</th><th>Freq</th><th>Long run</th><th>Volume</th><th>Realizado</th><th>Status</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>13/07–19/07</td><td><span class="phase-dot base"></span>Base</td><td>3x</td><td>6 km</td><td>~14 km</td><td>15,1 km</td><td><span class="status-chip done">✅ Concluída</span></td><td>Reafirmar consistência no volume atual</td></tr>
+          <tr class="is-current"><td>2</td><td>20/07–26/07</td><td><span class="phase-dot base"></span>Base</td><td>3x</td><td>7 km</td><td>~16 km</td><td>4,6 km</td><td><span class="status-chip progress">🔄 Em andamento</span></td><td>Long run até agora: 4.6km (meta 7km)</td></tr>
+          <tr><td>3</td><td>27/07–02/08</td><td><span class="phase-dot base"></span>Base</td><td>4x</td><td>7 km</td><td>~18 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Adicionar 1 treino de qualidade leve (fartlek)</td></tr>
+          <tr><td>4</td><td>03/08–09/08</td><td><span class="phase-dot base"></span>Base (cutback)</td><td>3x</td><td>6 km</td><td>~14 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Semana de recuperação</td></tr>
+          <tr><td>5</td><td>10/08–16/08</td><td><span class="phase-dot base"></span>Base</td><td>4x</td><td>8 km</td><td>~20 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>6</td><td>17/08–23/08</td><td><span class="phase-dot base"></span>Base</td><td>4x</td><td>9 km</td><td>~22 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>7</td><td>24/08–30/08</td><td><span class="phase-dot construcao"></span>Construção</td><td>4x</td><td>10 km</td><td>~24 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Introduzir tempo run</td></tr>
+          <tr><td>8</td><td>31/08–06/09</td><td><span class="phase-dot construcao"></span>Construção (cutback)</td><td>4x</td><td>7 km</td><td>~18 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Semana de recuperação</td></tr>
+          <tr><td>9</td><td>07/09–13/09</td><td><span class="phase-dot construcao"></span>Construção</td><td>4x</td><td>11 km</td><td>~26 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>10</td><td>14/09–20/09</td><td><span class="phase-dot construcao"></span>Construção</td><td>4x</td><td>12 km</td><td>~28 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>11</td><td>21/09–27/09</td><td><span class="phase-dot construcao"></span>Construção</td><td>4x</td><td>13 km</td><td>~30 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>12</td><td>28/09–04/10</td><td><span class="phase-dot construcao"></span>Construção (cutback)</td><td>4x</td><td>9 km</td><td>~22 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Semana de recuperação</td></tr>
+          <tr><td>13</td><td>05/10–11/10</td><td><span class="phase-dot construcao"></span>Construção</td><td>4x</td><td>14 km</td><td>~32 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Revisar meta de pace de prova</td></tr>
+          <tr><td>14</td><td>12/10–18/10</td><td><span class="phase-dot pico"></span>Pico</td><td>4-5x</td><td>15 km</td><td>~34 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>15</td><td>19/10–25/10</td><td><span class="phase-dot pico"></span>Pico</td><td>4-5x</td><td>16 km</td><td>~36 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>16</td><td>26/10–01/11</td><td><span class="phase-dot pico"></span>Pico (cutback)</td><td>4x</td><td>11 km</td><td>~26 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Semana de recuperação</td></tr>
+          <tr><td>17</td><td>02/11–08/11</td><td><span class="phase-dot pico"></span>Pico</td><td>4-5x</td><td>17 km</td><td>~38 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Long run mais longo do plano</td></tr>
+          <tr><td>18</td><td>09/11–15/11</td><td><span class="phase-dot pico"></span>Pico</td><td>4-5x</td><td>17 km</td><td>~38 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Repetir pico + trecho no pace de prova</td></tr>
+          <tr><td>19</td><td>16/11–22/11</td><td><span class="phase-dot taper"></span>Taper</td><td>4x</td><td>12 km</td><td>~28 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>Início do taper</td></tr>
+          <tr><td>20</td><td>23/11–29/11</td><td><span class="phase-dot taper"></span>Taper</td><td>3-4x</td><td>7 km</td><td>~16 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>—</td></tr>
+          <tr><td>21</td><td>30/11–06/12</td><td><span class="phase-dot prova"></span>Semana da prova</td><td>3x + prova</td><td>—</td><td>~8 km</td><td>—</td><td><span class="status-chip future">— Futura</span></td><td>🏁 PROVA 18KM — domingo 06/12</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title">⏱️ Paces de referência <span class="section-sub">baseado no 5K de 31:00</span></div>
+  <div class="pace-grid">
+    <div class="pace-card"><div class="lbl">Fácil / long run</div><div class="val">7:00–7:50/km</div></div>
+    <div class="pace-card"><div class="lbl">Tempo (limiar)</div><div class="val">6:30–6:50/km</div></div>
+    <div class="pace-card"><div class="lbl">Intervalado (400–800m)</div><div class="val">5:50–6:10/km</div></div>
+    <div class="pace-card"><div class="lbl">Meta de prova (18km)</div><div class="val">7:00–7:15/km</div></div>
+  </div>
+
+  <div class="section-title">🏋️ Coordenação com Musculação (5x/semana)</div>
+  <div class="note-card">
+    <b>Fase atual (Base):</b> ver recomendação por fase abaixo.
+    <ul>
+      <li><b>Base (1–6):</b> musculação normal — só evitar perna pesada na véspera do long run (domingo)</li>
+      <li><b>Construção (7–13):</b> reduzir carga de perna nos dias de qualidade (terça) e véspera do long run</li>
+      <li><b>Pico (14–18):</b> priorizar recuperação — reduzir volume/intensidade de perna, focar mobilidade</li>
+      <li><b>Taper (19–21):</b> pode voltar à musculação normal — volume de corrida caindo</li>
+    </ul>
+  </div>
+
+  <footer>
+    Atualizado em 24/07/2026 · Fonte: plano_corrida_18km.md + treinos reais via automação
+  </footer>
+</div>
+</body>
+</html>
