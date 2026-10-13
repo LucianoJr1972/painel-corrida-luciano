@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semana — Acompanhamento Atividades Luciano</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  :root {
+    --surface-1: #fcfcfb; --page-plane: #f9f9f7; --text-primary: #0b0b0b; --text-secondary: #52514e;
+    --muted: #898781; --gridline: #e1e0d9; --border: rgba(11,11,11,0.10); --card-bg: #ffffff;
+    --c-base: #2a78d6; --c-construcao: #eb6834; --c-pico: #d6285f; --c-taper: #0d8a8a;
+    --good: #0ca30c; --now-bg: #fff7e0; --now-border: #f0d78a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page-plane: #0d0d0d; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+      --muted: #898781; --gridline: #2c2c2a; --border: rgba(255,255,255,0.10); --card-bg: #232322;
+      --c-base: #3987e5; --c-construcao: #d95926; --c-pico: #ea4c80; --c-taper: #2bb3b3;
+      --good: #0ca30c; --now-bg: #2a2410; --now-border: #4d431c;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark; --surface-1: #1a1a19; --page-plane: #0d0d0d; --text-primary: #ffffff; --text-secondary: #c3c2b7;
+    --muted: #898781; --gridline: #2c2c2a; --border: rgba(255,255,255,0.10); --card-bg: #232322;
+    --c-base: #3987e5; --c-construcao: #d95926; --c-pico: #ea4c80; --c-taper: #2bb3b3; --now-bg: #2a2410; --now-border: #4d431c;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light; --surface-1: #fcfcfb; --page-plane: #f9f9f7; --text-primary: #0b0b0b; --text-secondary: #52514e;
+    --muted: #898781; --gridline: #e1e0d9; --border: rgba(11,11,11,0.10); --card-bg: #ffffff;
+    --c-base: #2a78d6; --c-construcao: #eb6834; --c-pico: #d6285f; --c-taper: #0d8a8a; --now-bg: #fff7e0; --now-border: #f0d78a;
+  }
+
+  body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--page-plane); color: var(--text-primary); padding: 16px 16px 60px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  .page-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 4px 18px; }
+  .page-nav-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .page-nav-link { font-size: 12.5px; font-weight: 700; color: #fff; background: var(--c-base); text-decoration: none; padding: 7px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
+  .page-nav-link:hover { opacity: .85; }
+
+  .hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #0ea5e9 130%); border-radius: 16px; padding: 26px 30px; color: #fff; margin-bottom: 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: center; }
+  .hero-main { flex: 1; min-width: 260px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7dd3fc; font-weight: 700; }
+  .hero-title { font-size: 26px; font-weight: 800; margin: 6px 0 4px; }
+  .hero-sub { font-size: 13px; color: #cbd5e1; max-width: 640px; }
+  .hero-progress { flex-basis: 100%; }
+  .hero-progress-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.15); overflow: hidden; margin-top: 8px; }
+  .hero-progress-fill { height: 100%; background: #7dd3fc; border-radius: 4px; }
+  .hero-progress-txt { font-size: 11px; color: #cbd5e1; margin-top: 4px; }
+  .hero-countdown { text-align: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 14px 24px; min-width: 130px; }
+  .hero-countdown .num { font-size: 36px; font-weight: 800; color: #7dd3fc; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-countdown .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-top: 4px; }
+  @media (max-width: 860px) { .hero { flex-direction: column; align-items: flex-start; } }
+
+  .section-title { font-size: 15px; font-weight: 800; margin: 28px 0 12px; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+  .section-sub { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+  .now-card { background: var(--now-bg); border: 1px solid var(--now-border); border-radius: 14px; padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .now-card .big { font-size: 13px; font-weight: 800; }
+  .now-nums { display: flex; gap: 22px; flex-wrap: wrap; }
+  .now-nums .num { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .now-nums .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .phase-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; border-top: 4px solid var(--pc); }
+  .phase-card.base { --pc: var(--c-base); }
+  .phase-card.construcao { --pc: var(--c-construcao); }
+  .phase-card.pico { --pc: var(--c-pico); }
+  .phase-card.taper { --pc: var(--c-taper); }
+  .phase-card.is-current { box-shadow: 0 0 0 2px var(--pc); }
+  .phase-name { font-size: 13px; font-weight: 800; }
+  .phase-weeks { font-size: 10.5px; color: var(--muted); margin-bottom: 8px; }
+  .phase-focus { font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; }
+  .phase-current-tag { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: #fff; background: var(--pc); padding: 2px 7px; border-radius: 10px; margin-top: 8px; }
+
+  .status-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .status-chip.done { color: var(--good); background: rgba(12,163,12,.12); }
+  .status-chip.partial { color: #b8860b; background: rgba(250,178,25,.15); }
+  .status-chip.progress { color: var(--c-base); background: rgba(42,120,214,.12); }
+  .status-chip.future { color: var(--muted); background: var(--surface-1); }
+
+  .cal-month-title { font-size: 12.5px; font-weight: 800; color: var(--text-secondary); margin: 16px 2px 6px; }
+  .cal-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; overflow-x: auto; margin-bottom: 6px; }
+  .cal-grid { display: flex; flex-direction: column; gap: 4px; min-width: 640px; }
+  .cal-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; padding-bottom: 4px; }
+  .cal-day { min-height: 66px; border-radius: 8px; padding: 5px 6px; background: var(--surface-1); border: 1px solid var(--border); position: relative; }
+  .cal-day-outside { opacity: .3; }
+  .cal-day-today { border: 1.5px solid var(--c-base); background: rgba(42,120,214,.06); }
+  .cal-daynum { font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 3px; }
+  .cal-badge { font-size: 8.5px; font-weight: 700; border-radius: 4px; padding: 2px 4px; margin-top: 2px; line-height: 1.3; }
+  .cal-badge.v-esteira { background: rgba(42,120,214,.15); color: var(--c-base); }
+  .cal-badge.v-rua { background: rgba(12,163,12,.15); color: var(--good); }
+  .cal-badge.v-musc { background: rgba(0,131,0,.12); color: #007000; }
+  .cal-badge.v-spin { background: rgba(235,104,52,.15); color: #c1501f; }
+  .cal-badge.v-indefinido { background: var(--gridline, #e1e0d9); color: var(--muted); border: 1px dashed var(--border); }
+  .cal-badge-planned { background: transparent; border: 1px dashed var(--border); color: var(--muted); font-weight: 600; }
+  .cal-badge-done { background: rgba(12,163,12,.15); color: var(--good); font-weight: 700; }
+  .cal-badge-missed { background: rgba(214,40,95,.12); color: var(--c-pico); font-weight: 700; }
+
+  .cal-month-details { margin-bottom: 10px; }
+  .cal-month-details summary { cursor: pointer; list-style: none; }
+  .cal-month-details summary::-webkit-details-marker { display: none; }
+  .cal-month-details summary::before { content: "▸ "; font-size: 11px; color: var(--muted); }
+  .cal-month-details[open] summary::before { content: "▾ "; }
+  .cal-longrun-tag { position: absolute; top: 4px; right: 5px; font-size: 11px; }
+  .cal-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--text-secondary); margin: 10px 2px 0; }
+  .cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .cal-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+
+  .table-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .table-scroll { max-height: 560px; overflow-y: auto; overflow-x: auto; }
+  table.week-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.week-table th { text-align: left; background: var(--surface-1); color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; padding: 8px 10px; border-bottom: 1px solid var(--gridline); position: sticky; top: 0; }
+  table.week-table td { padding: 7px 10px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  table.week-table tr:last-child td { border-bottom: none; }
+  table.week-table tr.is-current { background: var(--now-bg); }
+  table.week-table tr.is-current td:first-child { font-weight: 800; }
+  .phase-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+  .phase-dot.base { background: var(--c-base); }
+  .phase-dot.construcao { background: var(--c-construcao); }
+  .phase-dot.pico { background: var(--c-pico); }
+  .phase-dot.taper { background: var(--c-taper); }
+  .phase-dot.prova { background: var(--good); }
+
+  .pace-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .pace-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; text-align: center; }
+  .pace-card .lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .pace-card .val { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+  .note-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+  .note-card b { color: var(--text-primary); }
+  .note-card ul { margin: 8px 0 0; padding-left: 18px; }
+
+  footer { margin-top: 32px; font-size: 11px; color: var(--muted); text-align: center; }
+
+  @media (max-width: 1000px) { .phase-grid, .pace-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .phase-grid, .pace-grid { grid-template-columns: 1fr; } }
+
+
+  .wk-sub { font-size: 12.5px; color: var(--text-secondary); margin: -4px 2px 8px; }
+  .wk-summary { font-size: 12.5px; margin: 0 2px 10px; }
+  .wk-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .wk-grid.compact { gap: 6px; }
+  .wk-day { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 10px 11px; display: flex; flex-direction: column; gap: 5px; min-height: 120px; }
+  .wk-day.is-today { border: 1.5px solid var(--c-base); background: rgba(42,120,214,.07); }
+  .wk-day.is-done { background: rgba(12,163,12,.07); }
+  .wk-day.is-missed { background: rgba(214,40,95,.06); }
+  .wk-dow { font-size: 12px; font-weight: 800; }
+  .wk-dow span { font-weight: 500; color: var(--muted); }
+  .wk-plan-title { font-size: 12.5px; font-weight: 800; }
+  .wk-plan-title.rest { color: var(--muted); font-weight: 600; }
+  .wk-plan-venue { font-size: 11px; color: var(--muted); }
+  .wk-plan-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+  .wk-status { font-size: 11px; font-weight: 700; }
+  .wk-status.done { color: var(--good); }
+  .wk-status.missed { color: var(--c-pico); }
+  .wk-status.today { color: var(--c-base); }
+  .wk-status.future { color: var(--muted); font-weight: 600; }
+  .wk-act { font-size: 11px; border-radius: 6px; padding: 2px 6px; font-weight: 700; }
+  .wk-act.run { background: rgba(42,120,214,.14); color: var(--c-base); }
+  .wk-act.musc { background: rgba(0,131,0,.12); color: #007000; }
+  @media (max-width: 1000px) { .wk-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .wk-grid { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page-nav">
+    <div class="page-nav-title">🗓️ Calendário da Semana — 18KM</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;"><a class="page-nav-link" href="plano_treino.html">📋 Plano completo</a><a class="page-nav-link" href="index.html">← Painel</a></div>
+  </div>
+
+  <div class="now-card" style="margin-bottom:6px;">
+    <div class="big">🏁 Meta: 18KM em 11/04/2027 · faltam 180 dias</div>
+  </div>
+
+  <div class="section-title">📅 Esta semana <span class="section-sub">12/10–18/10</span></div><div class="wk-sub">Semana de retomada (antes do início oficial do plano em 19/10)</div><div class="wk-summary">Planejado: <b>8km</b> · Feito até agora: <b>0km</b></div><div class="wk-grid"><div class="wk-day"><div class="wk-dow">Segunda <span>12/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div><div class="wk-act musc">🏋️ 81 min</div></div><div class="wk-day is-today"><div class="wk-dow">Terça <span>13/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div><div class="wk-status today">📍 Hoje</div><div class="wk-act musc">🏋️ 84 min</div></div><div class="wk-day"><div class="wk-dow">Quarta <span>14/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div><div class="wk-day"><div class="wk-dow">Quinta <span>15/10</span></div><div class="wk-plan-title">Retomada fácil · 4km</div><div class="wk-plan-venue">🛤️ Rua</div><div class="wk-plan-desc">Ritmo de conversa (7:00–7:50/km), contínuo. Primeiro treino de volta: comece bem devagar. Se o joelho reclamar, converta em corre/caminha.</div><div class="wk-status future">📋 Planejado</div></div><div class="wk-day"><div class="wk-dow">Sexta <span>16/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div><div class="wk-day"><div class="wk-dow">Sábado <span>17/10</span></div><div class="wk-plan-title">Retomada fácil · 4km</div><div class="wk-plan-venue">🛤️ Rua</div><div class="wk-plan-desc">Ritmo de conversa (7:00–7:50/km), contínuo. Primeiro treino de volta: comece bem devagar. Se o joelho reclamar, converta em corre/caminha.</div><div class="wk-status future">📋 Planejado</div></div><div class="wk-day"><div class="wk-dow">Domingo <span>18/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div></div>
+
+  <div class="section-title">🛡️ Regra do joelho</div>
+  <div class="note-card">
+    Dor no joelho <b>durante</b> o treino = converter o restante em corre/caminha (8' corre / 2' caminha) e encerrar sem forçar.
+    Dor em <b>2 treinos seguidos</b> = voltar ao volume da semana anterior. Dor que persiste no dia seguinte (ao andar ou subir escada) = procurar fisioterapeuta/ortopedista antes de continuar.
+    <br><b>Musculação nesta fase:</b> <b>Base (1–8):</b> musculação normal — evitar perna pesada na véspera do long run (sábado) e na véspera do treino de qualidade (segunda)
+  </div>
+
+  <div class="section-title">👀 Próxima semana <span class="section-sub">19/10–25/10</span></div><div class="wk-sub">Semana 1 de 25 · Fase Base · long run 7km · volume ~19km · Retomada: tudo em ritmo fácil, sem forçar</div><div class="wk-grid compact"><div class="wk-day"><div class="wk-dow">Segunda <span>19/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div><div class="wk-day"><div class="wk-dow">Terça <span>20/10</span></div><div class="wk-plan-title">Fácil · 4km</div><div class="wk-status future">📋 Planejado</div></div><div class="wk-day"><div class="wk-dow">Quarta <span>21/10</span></div><div class="wk-plan-title">Fácil · 4km</div><div class="wk-status future">📋 Planejado</div></div><div class="wk-day"><div class="wk-dow">Quinta <span>22/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div><div class="wk-day"><div class="wk-dow">Sexta <span>23/10</span></div><div class="wk-plan-title">Fácil · 4km</div><div class="wk-status future">📋 Planejado</div></div><div class="wk-day"><div class="wk-dow">Sábado <span>24/10</span></div><div class="wk-plan-title rest">Descanso de corrida</div></div><div class="wk-day"><div class="wk-dow">Domingo <span>25/10</span></div><div class="wk-plan-title">⭐ Long Run · 7km</div><div class="wk-status future">📋 Planejado</div></div></div>
+
+  <footer>
+    Atualizado em 13/10/2026 · gerado automaticamente a partir do plano v2 + treinos reais
+  </footer>
+</div>
+</body>
+</html>
